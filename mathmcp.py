@@ -1,5 +1,6 @@
-from mcp.server.fastmcp import FastMCP
+# from mcp.server.fastmcp import FastMCP
 import os
+from fastmcp import FastMCP
 app = FastMCP("MathMCP")
 
 @app.tool()
@@ -26,7 +27,11 @@ def divide(a: float, b: float) -> float:
 
 if __name__ == "__main__":
     import asyncio
-    port = int(os.environ.get("PORT", 8000))
+    # port = int(os.environ.get("PORT", 8000))
     asyncio.run(
-        app.run_sse_async()
+        app.run_streamable_http_async(
+            host="0.0.0.0",  # Changed from 127.0.0.1 to allow external connections
+            port=8000,
+            log_level="debug"
+        )
     )
